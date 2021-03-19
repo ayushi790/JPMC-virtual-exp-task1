@@ -1,0 +1,82 @@
+From 19a4096aa6eb716ea337f02e0b5858cb85c85940 Mon Sep 17 00:00:00 2001
+From: Ayushi Gupta <gayushi790@gmail.com>
+Date: Wed, 17 Mar 2021 17:02:52 +0000
+Subject: [PATCH] create patch file
+
+---
+ client.py  |  30 ++++++++++++++----------------
+ client.pyc | Bin 0 -> 1335 bytes
+ 2 files changed, 14 insertions(+), 16 deletions(-)
+ create mode 100644 client.pyc
+
+diff --git a/client.py b/client.py
+index 40badcd..d21ae2d 100644
+--- a/client.py
++++ b/client.py
+@@ -35,25 +35,23 @@ def getDataPoint(quote):
+ 	stock = quote['stock']
+ 	bid_price = float(quote['top_bid']['price'])
+ 	ask_price = float(quote['top_ask']['price'])
+-	price = bid_price
++	price = (bid_price + ask_price)/2
+ 	return stock, bid_price, ask_price, price
+ 
+ def getRatio(price_a, price_b):
+-	""" Get ratio of price_a and price_b """
+-	""" ------------- Update this function ------------- """
+-	""" Also create some unit tests for this function in client_test.py """
+-	return 1
++  if(price_b==0):
++    return
++  return price_a/price_b
+ 
+ # Main
+ if __name__ == "__main__":
+-
+-	# Query the price once every N seconds.
+-	for _ in xrange(N):
+-		quotes = json.loads(urllib2.urlopen(QUERY.format(random.random())).read())
+-
+-		""" ----------- Update to get the ratio --------------- """
+-		for quote in quotes:
+-			stock, bid_price, ask_price, price = getDataPoint(quote)
+-			print "Quoted %s at (bid:%s, ask:%s, price:%s)" % (stock, bid_price, ask_price, price)
+-
+-		print "Ratio %s" % getRatio(price, price)
++  for _ in xrange(N):
++    quotes = json.loads(urllib2.urlopen(QUERY.format(random.random())).read())
++    prices = {}
++    
++    for quote in quotes:
++      stock, bid_price, ask_price, price = getDataPoint(quote)
++      prices[stock] = price
++      print "Quoted %s at (bid:%s, ask:%s, price:%s)" % (stock, bid_price, ask_price, price)
++      
++    print "Ratio %s" % getRatio(prices['ABC'], prices['DEF'])
+diff --git a/client.pyc b/client.pyc
+new file mode 100644
+index 0000000000000000000000000000000000000000..0a275d960f7c0051bdd46d563d9aa2fd5f0650fb
+GIT binary patch
+literal 1335
+zcmbtT&2G~`5dPM7Lle?c`bTp!2ZWI*0VE_;@!tjzq9t{O5EjU|*=g(4u~Y8`wIV&0
+zx8MP|aOBP44zt^&Ag<Wn*_qjy+4*M1?vJV3_dDT-4o1&8-XHN&Qv#6u31mQY#tTGZ
+ztalJOW8OvNLbAq#WPSqD!)JD^Ku%cZ9B2}<f_(>NRUCc;RY4Ot5m<Zw1yK#;pnDz!
+zbn74w-6@cZu8R{GBmTP6BR;x-lta(pum!rn{`V1G1XVy6jomvB(JZ1lMDvIiK>W>s
+zW^qq)4zr*+(7e&^cvyV){NO9z$Vm{N%|KSsFk20c6UUzJ;!SR=uoax=vZTNG*-)36
+z-P5|i(rji$C&~5-rC09WynC~GFrf12VJh!`I!=Fb2|K(n!OP>d%1gDG3~k89v4B1m
+z95lFW4bJ}98SA`1Iu}C+Ll>90m<z`qhGL``dIrW;P%)8LnE36okb@5SNtXG=j<5H~
+z&xs^S|6`I3Ncp<(cPXbb(QM?)L?`_s&9$#hmP!|$eQkz77yWoUl~&s?(+-_!6Sbc@
+zY!Mh}_IxKR5*-+SD;^9AO(9FrRVExIK8;``_CA$D8^c%yhNwGCntMf$n&lwp{F*P?
+z>&xq})?UACE#F!WTkV(4Zoe1z7+yy4t!5`nDc3jpN4n0QyQJ3`O4~v);c86a*2Fx&
+z)1qT88!y|2C01}5dA`j=a?gP+ZVRgxwgO|h!810>&B_+P#Stfe@!K~0|AjEgS22Vz
+z(P?pwd1V?3Q5T-j<}8kTNt(y8y2`?)sju{}C_mADz~x=JqOSW~Si9R4nY*Tpqm9U>
+z+GXMKlU2K~wVnoxEL#|ZGRxBK+u97MPJ3jTt}1eEawwBr7Cqb6&DX8)tu{^H2yJNd
+zLyWS^lODyf^*Ce~hGOhu>&L?()%dES&rLIdcZ#x?XnR>niL^R9ILfjXg$m6~*+~kG
+zPiO}7pScNG^*_U7klZ^Rss{@ul+UEjmFL&3xD}^btybz{PArRxGbNTpO*EX}$W;^>
+
+literal 0
+HcmV?d00001
+
+-- 
+2.20.1
+
